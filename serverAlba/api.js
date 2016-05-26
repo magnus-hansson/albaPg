@@ -18,7 +18,7 @@ module.exports = function (app, io) {
         db.task(function (t) {
             // this = t = task protocol context;
             // this.ctx = task config + state context;
-            return t.any("select id from gymnastActivity where gymnastid=$1", gid)
+            return t.any("select activityid from gymnastActivity where gymnastid=$1", gid)
                 .then(function (ids) {
                     prevIds = ids;
                     console.log(ids);

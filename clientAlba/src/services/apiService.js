@@ -1,8 +1,8 @@
 import {inject} from 'aurelia-framework';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import {AppSettings} from '../infrastructure/app-settings'
-import io from "socket.io-client"
-var socket = io('http://localhost:3001');
+// import io from "socket.io-client"
+// var socket = io('http://localhost:3001');
 @inject(HttpClient, AppSettings)
 export class ApiService {
 
@@ -17,14 +17,14 @@ export class ApiService {
         });
         this.http = http;
         
-         socket.on('connect', function (data) {
-            //socket.emit('join', 'Hello World from client');
-            console.log("connected");
-        });
+        //  socket.on('connect', function (data) {
+        //     //socket.emit('join', 'Hello World from client');
+        //     console.log("connected");
+        // });
              
-         socket.on('inserted', function (data) {
-            console.log('someone inserted shits', data);
-        });
+        //  socket.on('inserted', function (data) {
+        //     console.log('someone inserted shits', data);
+        // });
     }
 
     getActivities() {

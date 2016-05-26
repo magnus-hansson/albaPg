@@ -20,7 +20,7 @@ var db = require('./queries');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//
+//dsad
 io.sockets.on('connection', function (socket) {
   console.log('sockets connection');
 });
@@ -43,7 +43,7 @@ require('./api')(app,io);
  app.use('/api/v1/activities', activities);
 
 //app.post('/api/signup', db.signup);
-
+ 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
