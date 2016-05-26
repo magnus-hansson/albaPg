@@ -35,7 +35,8 @@ export class ApiService {
                 this.isRequesting = false;
                 return data;
             });
-    }
+    } 
+    
     
     signUp(activityId, gymnastId){
         let obj = {};
