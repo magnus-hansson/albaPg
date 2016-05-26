@@ -10,11 +10,14 @@ export class Activity {
 
         this.activities = [];
         this.selected = null;
-
+        this.activitiesflat = [];
         this.temp = [];
 
-        socket.on('inserted', function (data) {
-            console.log(data);
+        socket.on('inserted', (data) => {
+            //update event with
+            let objToUpdate = this.activitiesflat.find(x => x.id ===  data.add);
+            objToUpdate.functionaries =Number.parseInt(objToUpdate.functionaries) +1; 
+            console.log('add one signed up func for activity with id:',data.add, objToUpdate);
         });
     }
 
@@ -47,9 +50,10 @@ export class Activity {
             .then((res) => {
                 //this.activities = res;
 
-                let fil = this.groupByDate(res);
-                this.activities = fil;
-                console.log(fil);
+                this.activities = this.groupByDate(res);
+                //this.activities = fil;
+                this.activitiesflat = res;
+                console.log(res);
             });
     }
 }
