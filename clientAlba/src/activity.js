@@ -2,7 +2,7 @@ import {inject} from 'aurelia-framework';
 import {BindingEngine} from 'aurelia-binding';
 import {ApiService} from './services/apiService';
 import io from "socket.io-client"
-var socket = io('http://localhost:3001');
+var socket = io('http://localhost:3010');
 @inject(ApiService, BindingEngine)
 export class Activity {
     constructor(apiService, bindingEngine, ) {
@@ -12,12 +12,23 @@ export class Activity {
         this.selected = null;
         this.activitiesflat = [];
         this.temp = [];
+        this.gymnastId = null;
 
         socket.on('inserted', (data) => {
             //update event with
-            let objToUpdate = this.activitiesflat.find(x => x.id ===  data.add);
-            objToUpdate.functionaries =Number.parseInt(objToUpdate.functionaries) +1; 
-            console.log('add one signed up func for activity with id:',data.add, objToUpdate);
+            console.log(data);
+
+            data.del.forEach((a) => {
+                console.log(this.activitiesflat);
+                console.log(a.activityid)
+                let decreaseThisActivity = this.activitiesflat.find(x => x.id === Number.parseInt(a.activityid));
+                decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
+                console.log(decreaseThisActivity);
+            });
+
+            let objToUpdate = this.activitiesflat.find(x => x.id === data.add);
+            objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
+            console.log('add one signed up func for activity with id:', data.add, objToUpdate);
         });
     }
 
@@ -41,17 +52,23 @@ export class Activity {
     selectActivity(activity) {
         console.log('selected activity', activity);
         let activityId = activity.id;
-        let gymnastId = 777;
-        this.apiService.signUp(activityId, gymnastId);
+        let gymnastId = this.gymnastId;
+        this.apiService.signUp(activityId, gymnastId)
+            .then((res) => {
+                //console.log(res);
+                let emitThis = {};
+            });
     }
 
-    activate() {
+    activate(params, route, navigationInstruction) {
+        let gymnastId = navigationInstruction.params.childRoute;
+        console.log(navigationInstruction.params.childRoute);
+        this.gymnastId = navigationInstruction.params.childRoute;
+        //todo: verify that gymnastId maps to known gymnast
+
         return this.apiService.getActivities()
             .then((res) => {
-                //this.activities = res;
-
                 this.activities = this.groupByDate(res);
-                //this.activities = fil;
                 this.activitiesflat = res;
                 console.log(res);
             });

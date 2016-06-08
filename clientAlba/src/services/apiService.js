@@ -42,7 +42,12 @@ export class ApiService {
         let obj = {};
         obj.gid = gymnastId;
         obj.aid = activityId;
-        return this.http.fetch('signup', { method: 'post', body: json(obj) });
+        return this.http.fetch('signup', { method: 'post', body: json(obj) })
+         .then(response => response.json())
+            .then(data => {
+                this.isRequesting = false;
+                return data;
+            });
     }
 
     putOrPost(phrase) {

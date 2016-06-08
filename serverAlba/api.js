@@ -14,10 +14,8 @@ module.exports = function (app, io) {
         var gid = req.body.gid;
         var aid = req.body.aid;
         var prevIds = null;
-      
+
         db.task(function (t) {
-            // this = t = task protocol context;
-            // this.ctx = task config + state context;
             return t.any("select activityid from gymnastActivity where gymnastid=$1", gid)
                 .then(function (ids) {
                     prevIds = ids;
@@ -27,12 +25,12 @@ module.exports = function (app, io) {
                             return t.any("INSERT INTO GymnastActivity (gymnastid, activityid) values($1, $2)", [gid, aid]);
                         });
                 });
-            })
+        })
             .then(function (events) {
                 io.emit('inserted', { 'add': aid, 'del': prevIds });
+
                 res.status(200)
                     .json({
-                        status: events,
                         message: 'Inserted one puppy',
                         old: prevIds
                     });
@@ -42,7 +40,6 @@ module.exports = function (app, io) {
                 console.log("ERROR:", error.message || error);
             });
     });
-
 
     app.post('/api/v3/signupX', (req, res) => {
 
@@ -61,12 +58,9 @@ module.exports = function (app, io) {
                         old: prevActIds
                     });
             })
-
             .catch(function (err) {
                 return next(err);
             });
-
-
     });
 
     app.put('/foo', function (req, res) {

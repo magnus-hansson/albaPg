@@ -8,18 +8,18 @@ export class Users {
   users = [];
 
   constructor(http) {
-    http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl('https://api.github.com/');
-    });
+    // http.configure(config => {
+    //   config
+    //     .useStandardConfiguration()
+    //     .withBaseUrl('https://api.github.com/');
+    // });
 
-    this.http = http;
+    // this.http = http;
   }
 
   activate() {
-    return this.http.fetch('users')
-      .then(response => response.json())
-      .then(users => this.users = users);
+    // return this.http.fetch('users')
+    //   .then(response => response.json())
+    //   .then(users => this.users = users);
   }
 }

@@ -10,4 +10,8 @@ export class ChildRouter {
 
     this.router = router;
   }
+  
+  activate(parameter){
+    console.log(parameter.id);
+  }
 }
