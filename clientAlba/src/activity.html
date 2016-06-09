@@ -1,10 +1,13 @@
 <template>
-<div class="col-md-7" style="margin-top:10px;">
-  <div class="panel panel-default" repeat.for="date of activities">
-  <div class="panel-heading">${date.date}</div>
-  <ul class="list-group" repeat.for="activity of date.activity">
-    <li class="list-group-item" click.delegate="$parent.$parent.selectActivity(activity)">${activity.name}  ${activity.functionaries} / ${activity.numberofpersons}</li>
-  </ul>
-</div>
-</div>
+  <div class="col-md-7" style="margin-top:10px;">
+    <div class="panel panel-default" repeat.for="date of activities">
+      <div class="panel-heading">${date.date}</div>
+      <div class="list-group"  repeat.for="activity of date.activity">
+        <a href="#" class="list-group-item" click.delegate="$parent.$parent.selectActivity(activity)">
+          <div><h4 class="list-group-item-heading">${activity.name}</h4></div>
+          <p class="list-group-item-text">${activity.beskrivning}</p>
+        </a>
+      </div>
+    </div>
+  </div>
 </template>

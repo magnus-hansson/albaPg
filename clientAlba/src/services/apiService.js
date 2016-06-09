@@ -16,12 +16,12 @@ export class ApiService {
                 });
         });
         this.http = http;
-        
+
         //  socket.on('connect', function (data) {
         //     //socket.emit('join', 'Hello World from client');
         //     console.log("connected");
         // });
-             
+
         //  socket.on('inserted', function (data) {
         //     console.log('someone inserted shits', data);
         // });
@@ -35,15 +35,15 @@ export class ApiService {
                 this.isRequesting = false;
                 return data;
             });
-    } 
-    
-    
-    signUp(activityId, gymnastId){
+    }
+
+
+    signUp(activityId, gymnastId) {
         let obj = {};
         obj.gid = gymnastId;
         obj.aid = activityId;
         return this.http.fetch('signup', { method: 'post', body: json(obj) })
-         .then(response => response.json())
+            .then(response => response.json())
             .then(data => {
                 this.isRequesting = false;
                 return data;
@@ -57,6 +57,15 @@ export class ApiService {
         } else {
             return this.http.fetch('phrase/update', { method: 'post', body: json(phrase) });
         }
+    }
+
+    getUserById(guuid) {
+        return this.http.fetch('user/' + guuid, { method: 'get' })
+            .then(response => response.json())
+            .then(data => {
+                this.isRequesting = false;
+                return data;
+            });;
     }
 
     delete(id) {

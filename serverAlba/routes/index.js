@@ -37,9 +37,13 @@ router.post('/api/v1/todos', function (req, res) {
       return res.json(results);
     });
 
-
+      
   });
 });
+// router.get('/api/v1/user/:id', (req, res) => {
+//   console.log(req.params.id);
+//   return res.json(req.params.id);
+// });
 
 router.get('/api/v1/todos', function (req, res) {
 

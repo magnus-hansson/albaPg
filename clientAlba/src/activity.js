@@ -2,6 +2,7 @@ import {inject} from 'aurelia-framework';
 import {BindingEngine} from 'aurelia-binding';
 import {ApiService} from './services/apiService';
 import io from "socket.io-client"
+import moment from 'moment';
 var socket = io('http://localhost:3010');
 @inject(ApiService, BindingEngine)
 export class Activity {
@@ -33,7 +34,7 @@ export class Activity {
     }
 
     groupByDate(activities) {
-        let key = 'datum';
+        let key = 'datum2';
         let activityObject = activities.reduce(function (rv, x) {
             let stop = "";
             (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -55,7 +56,6 @@ export class Activity {
         let gymnastId = this.gymnastId;
         this.apiService.signUp(activityId, gymnastId)
             .then((res) => {
-                //console.log(res);
                 let emitThis = {};
             });
     }
@@ -65,12 +65,19 @@ export class Activity {
         console.log(navigationInstruction.params.childRoute);
         this.gymnastId = navigationInstruction.params.childRoute;
         //todo: verify that gymnastId maps to known gymnast
-
-        return this.apiService.getActivities()
-            .then((res) => {
-                this.activities = this.groupByDate(res);
-                this.activitiesflat = res;
-                console.log(res);
+        return this.apiService.getUserById(this.gymnastId)
+             .then((res) => {
+                console.log('response', res);
+                this.activitiesflat = [];
             });
+            
+
+
+        // return this.apiService.getActivities()
+        //     .then((res) => {
+        //         this.activities = this.groupByDate(res);
+        //         this.activitiesflat = res;
+        //         console.log(res);
+        //     });
     }
 }

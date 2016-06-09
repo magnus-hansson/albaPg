@@ -7,13 +7,14 @@ var bodyParser = require('body-parser');
 var connectionString = require(path.join(__dirname, 'config'));
 var pg = require('pg');
 var routes = require('./routes/index');
+var userroutes = require('./routes/userroutes');
 var users = require('./routes/users');
 var activities = require('./routes/activities');
 var cors = require('cors');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var router = express.Router();
+
 var db = require('./queries');
 
 // view engine setup
@@ -37,13 +38,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-require('./api')(app,io); 
-// app.use('/', routes);
-// app.use('/users', users);
- app.use('/api/v1/activities', activities);
 
-//app.post('/api/signup', db.signup);
- 
+require('./api')(app, io);
+app.use('/', userroutes);
+
+app.use('/api/v1/activities', activities);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -52,10 +51,6 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
@@ -66,8 +61,6 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {

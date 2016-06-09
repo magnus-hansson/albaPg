@@ -28,7 +28,7 @@ router.get('/', function (req, res) {
     }
 
     // SQL Query > Select Data
-    var query = client.query("select 	id,name,numberofpersons,datum,starttime,endtime,(datum2 || ' ' || starttime) AS startDateTime,(datum2 || ' ' || endtime) AS endDateTime, (select  count(*) from GymnastActivity where ActivityId = a.Id) functionaries from Activities a ORDER BY datum asc	");
+    var query = client.query("select 	id,name,numberofpersons,datum,datum2,beskrivning,starttime,endtime,(datum2 || ' ' || starttime) AS startDateTime,(datum2 || ' ' || endtime) AS endDateTime, (select  count(*) from GymnastActivity where ActivityId = a.Id) functionaries from Activities a ORDER BY datum asc	");
 
     // Stream results back one row at a time
     query.on('row', function (row) {
