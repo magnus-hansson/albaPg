@@ -4,8 +4,9 @@
       <div class="panel-heading">${date.date}</div>
       <div class="list-group"  repeat.for="activity of date.activity">
         <a href="#" class="list-group-item" click.delegate="$parent.$parent.selectActivity(activity)">
-          <div><h4 class="list-group-item-heading">${activity.name}</h4></div>
-          <p class="list-group-item-text">${activity.beskrivning}</p>
+          <h4 class="list-group-item-heading">${activity.name}</h4>
+          <p class="list-group-item-text"><b>Tid:</b> ${activity.starttime} - ${activity.endtime}</p>
+          <p class="list-group-item-text"><b>Beskrivning:</b> ${activity.beskrivning}</p>
         </a>
       </div>
     </div>

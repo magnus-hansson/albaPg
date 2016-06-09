@@ -14,9 +14,9 @@ export class Activity {
         this.activitiesflat = [];
         this.temp = [];
         this.gymnastId = null;
+        this.gymnastName = null;
 
         socket.on('inserted', (data) => {
-            //update event with
             console.log(data);
 
             data.del.forEach((a) => {
@@ -68,6 +68,7 @@ export class Activity {
         return this.apiService.getUserById(this.gymnastId)
             .then((res) => {
                 console.log('response', res);
+                this.gymnastName = res.name;
                 this.activitiesflat = [];
             })
             .then(this.apiService.getActivities()

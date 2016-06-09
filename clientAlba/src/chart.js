@@ -25,11 +25,11 @@ export class Chart {
             id: 'President'
         });
         dataTable.addColumn({
-            type: 'date',
+            type: 'datetime',
             id: 'Start'
         });
         dataTable.addColumn({
-            type: 'date',
+            type: 'datetime',
             id: 'End'
         });
         dataTable.addRows(data);
@@ -42,7 +42,11 @@ export class Chart {
         var options = {
             timeline: {
                 groupByRowLabel: true
-            }
+            },
+            hAxis: {
+            format: 'dd - hh',
+            gridlines: {count: 15}
+          },
         };
 
         // function selectHandler() {

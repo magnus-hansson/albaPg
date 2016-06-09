@@ -15,7 +15,7 @@ var db = pgp(connectionString);
 
 
 router.get('/api/v1/user/:id', (req, res) => {
-var results = [];
+    var results = [];
     pg.connect(connectionString, function (err, client, done) {
         // Handle connection errors
         if (err) {
@@ -24,14 +24,18 @@ var results = [];
             return res.status(500).json({ success: false, data: err });
         }
         console.log(req.params.id);
-        // SQL Query > Select Data
+        
+        /*
         var query = client.query("select * from gymnast where guuid=$1", [req.params.id]);
-
-        // Stream results back one row at a time
         query.on('row', function (row) {
             results.push(row);
         });
+        */
+         var query = client.query("select * from gymnast where id=$1", [req.params.id]);
 
+         query.on('row', function (row) {
+             results.push(row);
+         });
         // After all data is returned, close connection and return results
         query.on('end', function () {
             done();
