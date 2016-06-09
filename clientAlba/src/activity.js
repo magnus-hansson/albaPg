@@ -66,18 +66,16 @@ export class Activity {
         this.gymnastId = navigationInstruction.params.childRoute;
         //todo: verify that gymnastId maps to known gymnast
         return this.apiService.getUserById(this.gymnastId)
-             .then((res) => {
+            .then((res) => {
                 console.log('response', res);
                 this.activitiesflat = [];
-            });
-            
-
-
-        // return this.apiService.getActivities()
-        //     .then((res) => {
-        //         this.activities = this.groupByDate(res);
-        //         this.activitiesflat = res;
-        //         console.log(res);
-        //     });
+            })
+            .then(this.apiService.getActivities()
+                .then((res) => {
+                    this.activities = this.groupByDate(res);
+                    this.activitiesflat = res;
+                    console.log(res);
+                })
+            );
     }
 }
