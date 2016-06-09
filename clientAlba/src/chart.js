@@ -32,16 +32,16 @@ export class Chart {
             type: 'date',
             id: 'End'
         });
-        //dataTable.addRows(data);
-         dataTable.addRows([
-             ['Flytt', new Date(2016, 7, 7, 2, 0), new Date(2016, 7, 7, 7, 0)],
-             ['Café', new Date(2016, 7, 7, 6, 0), new Date(2016, 7, 7, 13, 0)],
-             ['Städ', new Date(2016, 7, 7, 12, 0), new Date(2016, 7, 7, 17, 0)],
-             ['Städ', new Date(2016, 7, 8, 12, 0), new Date(2016, 7, 8, 17, 0)]
-         ]);
+        dataTable.addRows(data);
+        // dataTable.addRows([
+        //     ['Flytt', new Date(2016, 7, 7, 2, 0), new Date(2016, 7, 7, 7, 0)],
+        //     ['Café', new Date(2016, 7, 7, 6, 0), new Date(2016, 7, 7, 13, 0)],
+        //     ['Städ', new Date(2016, 7, 7, 12, 0), new Date(2016, 7, 7, 17, 0)],
+        //     ['Städ', new Date(2016, 7, 8, 12, 0), new Date(2016, 7, 8, 17, 0)]
+        // ]);
         var options = {
             timeline: {
-                groupByRowLabel: false
+                groupByRowLabel: true
             }
         };
 
@@ -63,16 +63,20 @@ export class Chart {
         this.apiService.getActivities()
             .then((res) => {
                 this.activities = res;
-                console.log(res[0]);
+                //console.log(res[0]);
                 let arr = res.map(act => {
                     let name = act.name;
-
-                    let starttime = new Date(moment(act.datum).format('YYYY-MM-DD') + ' ' + act.starttime);
-                    let endtime = new Date(moment(act.datum).format('YYYY-MM-DD') + ' ' + act.endtime);
-                    return { name, starttime, endtime };
-
+                    let starttime = new Date(act.startdatetime);
+                    //let starttime = new Date(moment(act.startdatetime).format('YYYY-MM-DD HH:mm'));
+                    let endtime = new Date(act.enddatetime);
+                    //let endtime = new Date(moment(act.enddatetime).format('YYYY-MM-DD HH:mm'));
+                    let retArray = [];
+                    retArray.push(name);
+                    retArray.push(starttime);
+                    retArray.push(endtime);
+                    return retArray
                 });
-                this.activities = arr;
+                //this.activities = arr;
                 //this.kalle();
                 //console.log(arr)
                 google.charts.load('current',
