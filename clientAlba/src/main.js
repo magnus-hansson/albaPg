@@ -12,7 +12,8 @@ import '../styles/styles.css';
 bootstrap(function(aurelia) {
   aurelia.use
     .standardConfiguration()
-    .developmentLogging();
+    .developmentLogging()
+    .plugin('aurelia-dialog');
 
   aurelia.start().then(() => aurelia.setRoot('app', document.body));
 });
