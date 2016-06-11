@@ -3,7 +3,7 @@ import {BindingEngine} from 'aurelia-binding';
 import {ApiService} from './services/apiService';
 import io from "socket.io-client"
 import moment from 'moment';
-var socket = io('http://localhost:3010');
+
 @inject(ApiService, BindingEngine)
 export class Activity {
     constructor(apiService, bindingEngine, ) {
@@ -15,22 +15,27 @@ export class Activity {
         this.temp = [];
         this.gymnastId = null;
         this.gymnastName = null;
+        this.server = false;
+        
+        if (this.server == true) {
+            var socket = io('http://localhost:3010');
 
-        socket.on('inserted', (data) => {
-            console.log(data);
+            socket.on('inserted', (data) => {
+                console.log(data);
 
-            data.del.forEach((a) => {
-                console.log(this.activitiesflat);
-                console.log(a.activityid)
-                let decreaseThisActivity = this.activitiesflat.find(x => x.id === Number.parseInt(a.activityid));
-                decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
-                console.log(decreaseThisActivity);
+                data.del.forEach((a) => {
+                    console.log(this.activitiesflat);
+                    console.log(a.activityid)
+                    let decreaseThisActivity = this.activitiesflat.find(x => x.id === Number.parseInt(a.activityid));
+                    decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
+                    console.log(decreaseThisActivity);
+                });
+
+                let objToUpdate = this.activitiesflat.find(x => x.id === data.add);
+                objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
+                console.log('add one signed up func for activity with id:', data.add, objToUpdate);
             });
-
-            let objToUpdate = this.activitiesflat.find(x => x.id === data.add);
-            objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
-            console.log('add one signed up func for activity with id:', data.add, objToUpdate);
-        });
+        }
     }
 
     groupByDate(activities) {

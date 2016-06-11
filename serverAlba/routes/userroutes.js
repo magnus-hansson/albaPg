@@ -23,7 +23,11 @@ router.get('/api/v1/user/:id', (req, res) => {
             console.log(err);
             return res.status(500).json({ success: false, data: err });
         }
-        console.log(req.params.id);
+        var userid = req.params.id;
+        if (userid == "undefined"){
+            userid = 1;
+        } 
+        console.log(userid);
         
         /*
         var query = client.query("select * from gymnast where guuid=$1", [req.params.id]);
@@ -31,7 +35,7 @@ router.get('/api/v1/user/:id', (req, res) => {
             results.push(row);
         });
         */
-         var query = client.query("select * from gymnast where id=$1", [req.params.id]);
+         var query = client.query("select * from gymnast where id=$1", [userid]);
 
          query.on('row', function (row) {
              results.push(row);

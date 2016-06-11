@@ -1,7 +1,7 @@
 {
-  "name": "aurelia-skeleton-navigation-webpack",
+  "name": "aurelia-albatross-webpack",
   "version": "1.0.0-beta.1.2.4",
-  "description": "A starter kit for building a standard navigation-style app with Aurelia and webpack.",
+  "description": "A starter kit for building orange albatrosses",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js --hot --inline --progress --devtool source-map",
@@ -23,7 +23,7 @@
     "navigation",
     "webpack"
   ],
-  "author": "Martijn Boland",
+  "author": "Borland c++",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aurelia/skeleton-navigation/issues"
@@ -45,6 +45,7 @@
     "aurelia-templating-router": "^1.0.0-beta.1.1.1",
     "bluebird": "^3.3.4",
     "bootstrap": "^3.3.6",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "font-awesome": "^4.5.0",
     "h-swal": "^1.1.5",
     "isomorphic-fetch": "^2.2.1",
