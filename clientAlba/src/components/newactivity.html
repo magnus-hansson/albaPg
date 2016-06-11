@@ -1,14 +1,19 @@
 <template>
-    
-    <ai-dialog class="wider-dialog">
+    <ai-dialog class="wider-dialog" style="width:600px">
         <ai-dialog-body>
-            <h2>Search for</h2>
+            <h2>Add activity</h2>
             <div class="row">
-                <div class="col-sm-6">
-    
-                    <input class="form-control" />
+                <div class="col-sm-8">
+                    Name <input type="text" value.bind="name" class="form-control" placeholder="Kånka redskap" />
+                    Location <input type="text" value.bind="location" class="form-control" placeholder="Till JG-hallen" />
+                    Start<input type="text" value.bind="start" class="form-control" placeholder="2016-07-01 14:00"/>
+                    Stop<input type="text" value.bind="end" class="form-control" placeholder="2016-07-01 18:00" />
                 </div>
             </div>
         </ai-dialog-body>
+         <ai-dialog-footer>
+            <button class="btn " click.trigger="controller.cancel() ">Cancel</button>
+            <button class="btn " click.trigger="controller.ok({name,location, start, end}) ">Ok</button>
+        </ai-dialog-footer>
     </ai-dialog>
 </template>

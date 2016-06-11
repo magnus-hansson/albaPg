@@ -1,12 +1,13 @@
 import {inject} from 'aurelia-framework';
 import {BindingEngine} from 'aurelia-binding';
 import {ApiService} from './services/apiService';
+import {AppSettings} from './infrastructure/app-settings'
 import io from "socket.io-client"
 import moment from 'moment';
 
-@inject(ApiService, BindingEngine)
+@inject(ApiService, BindingEngine, AppSettings)
 export class Activity {
-    constructor(apiService, bindingEngine, ) {
+    constructor(apiService, bindingEngine, appSettings) {
         this.apiService = apiService;
 
         this.activities = [];
@@ -16,8 +17,9 @@ export class Activity {
         this.gymnastId = null;
         this.gymnastName = null;
         this.server = false;
-        
-        if (this.server == true) {
+        this.appSettings = appSettings;
+
+        if (this.appSettings.useServer == true) {
             var socket = io('http://localhost:3010');
 
             socket.on('inserted', (data) => {
