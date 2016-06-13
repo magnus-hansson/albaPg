@@ -14,12 +14,15 @@ export class VisChart {
         this.dialogService = dialogService;
     }
 
-    aDialog(callback) {
-        this.dialogService.open({ viewModel: 'components/newactivity' }).then(response => {
+    aDialog(callback, model) {
+        this.dialogService.open({ viewModel: 'components/newactivity', model: model }).then(response => {
             if (!response.wasCancelled) {
                 console.log('New activity - ', response.output);
                 let res = response.output;
-                callback({start:res.start,end:res.end, name: res.name,location:res.location});
+                let startTime = moment(res.start).format('HH:mm');
+                let endTime = moment(res.end).format('HH:mm');
+
+                callback({ start: res.start, end: res.end, name: res.name, location: res.location, starttime: startTime, endtime: endTime });
             } else {
                 console.log('Cancel');
             }
@@ -42,21 +45,46 @@ export class VisChart {
                 updateTime: true,  // drag items horizontally
                 updateGroup: true, // drag items from one group to another
                 remove: true       // delete an item by tapping the delete button top right
-            }, onAdd: (item, callback) => { //function (item, callback) {
-                
+            },
+            onAdd: (item, callback) => { //function (item, callback) {
+
                 this.aDialog(function (value) {
                     if (value) {
-                        console.log('return from dialog',value);
-                        
+                        console.log('return from dialog', value);
+
                         item.content = value;
                         console.log(value);
-                        //console.log('callback höär', callback);
                         callback(value); // send back adjusted new item
                     }
                     else {
                         callback(null); // cancel item creation
                     }
-                });
+                }, null);
+            },
+            onMove: function (item, callback) {
+                var title = 'Do you really want to move the item to\n' +
+                    'start: ' + item.start + '\n' +
+                    'end: ' + item.end + '?';
+                item.start = moment(item.start).format('YYYY-MM-DD HH:mm');
+                item.end = moment(item.end).format('YYYY-MM-DD HH:mm');
+                item.starttime = moment(item.start).format('HH:mm');
+                item.endtime = moment(item.end).format('HH:mm');
+
+                callback(item); // send back item as confirmation (can be changed)
+            },
+            onUpdate:  (item, callback) => {
+                this.aDialog(function (value) {
+                    if (value) {
+                        console.log('return from dialog', value);
+
+                        item.content = value;
+                        console.log(value);
+                        callback(value); // send back adjusted new item
+                    }
+                    else {
+                        callback(null); // cancel item creation
+                    }
+                }, item);
             },
         };
 

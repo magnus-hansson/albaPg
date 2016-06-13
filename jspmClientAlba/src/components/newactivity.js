@@ -5,13 +5,21 @@ import {BindingEngine} from 'aurelia-binding';
 export class NewActivity {
     constructor(controller,  bindingEngine) {
          this.controller = controller;
-         this.start = "2016-05-27 11:10";
-         this.end = "2016-05-27 21:10";
+         this.start = "";
+         this.end = "";
          this.name = "Bär tunga grejer";
          this.location = "Jg hallen";
     }
 
-    activate(){
+    activate(model){
+        if(model){
+            console.log(model);
+            this.name = model.name;
+            this.location = model.location;
+            this.start = model.start;
+            this.end = model.end;
+        }
+
         console.log('activate');
     }
 }
