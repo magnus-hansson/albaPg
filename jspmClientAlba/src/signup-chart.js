@@ -4,30 +4,36 @@ import {ApiService} from './services/apiService';
 import moment from 'moment';
 import vis from  'vis';
 import 'vis/dist/vis.css!';
+import io from "socket.io-client"
+import {AppSettings} from './infrastructure/app-settings'
 
 
-@inject(ApiService, BindingEngine, vis)
+@inject(ApiService, BindingEngine, AppSettings, vis)
 export class SignupChart {
-    constructor(apiService, bindingEngine) {
+    constructor(apiService, bindingEngine, appSettings) {
         this.apiService = apiService;
         this.activities = [];
+        this.appSettings = appSettings;
 
+        if (this.appSettings.useServer == true) {
+            var socket = io('http://localhost:3010');
 
-    }
+            socket.on('inserted', (data) => {
+                console.log(data);
 
-    aDialog(callback, model) {
-        this.dialogService.open({ viewModel: 'components/newactivity', model: model }).then(response => {
-            if (!response.wasCancelled) {
-                console.log('New activity - ', response.output);
-                let res = response.output;
-                let startTime = moment(res.start).format('HH:mm');
-                let endTime = moment(res.end).format('HH:mm');
+                data.del.forEach((a) => {
+                    console.log(this.activitiesflat);
+                    console.log(a.activityid)
+                    let decreaseThisActivity = this.activities.find(x => x.id === Number.parseInt(a.activityid));
+                    decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
+                    console.log(decreaseThisActivity);
+                });
 
-                callback({ start: res.start, end: res.end, name: res.name, location: res.location, starttime: startTime, endtime: endTime });
-            } else {
-                console.log('Cancel');
-            }
-        });
+                let objToUpdate = this.activities.find(x => x.id === data.add);
+                objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
+                console.log('add one signed up func for activity with id:', data.add, objToUpdate);
+            });
+        }
     }
 
     signup(activityId, gymnastId) {
@@ -43,12 +49,12 @@ export class SignupChart {
             .then((res) => {
                 console.log('response', res);
                 this.gymnastName = res.name;
-               
+
             })
             .then(this.apiService.getActivities()
                 .then((res) => {
                     this.activities = res;
-                    
+
                     console.log(this.activities);
                 })
             );
@@ -73,31 +79,16 @@ export class SignupChart {
             },
         };
 
-                var timeline = new vis.Timeline(container);
-                timeline.setOptions(options);
-                //timeline.setGroups(groups);
-                timeline.setItems(this.activities);
+        var timeline = new vis.Timeline(container);
+        timeline.setOptions(options);
+        //timeline.setGroups(groups);
+        timeline.setItems(this.activities);
 
-                timeline.on('click', function (properties) {
-                    if (properties.what === 'item') {
-                        console.log('signing up for event id = ', properties);
-                    }
-                });
-
-        // this.apiService.getActivities()
-        //     .then((res) => {
-        //         console.log(res);
-        //         this.activities = res;
-        //         var timeline = new vis.Timeline(container);
-        //         timeline.setOptions(options);
-        //         //timeline.setGroups(groups);
-        //         timeline.setItems(this.activities);
-
-        //         timeline.on('click', function (properties) {
-        //             if (properties.what === 'item') {
-        //                 console.log('signing up for event id = ', properties);
-        //             }
-        //         });
-        //     });
+        timeline.on('click',  (properties) => {
+            if (properties.what === 'item') {
+                console.log('signing up for event id = ', properties.item);
+                this.signup(this.gymnastId, properties.item);
+            }
+        });
     }
 }

@@ -55,12 +55,14 @@ export class ApiService {
         let obj = {};
         obj.gid = gymnastId;
         obj.aid = activityId;
+        if (this.appSettings.useServer == true) {
         return this.http.fetch('signup', { method: 'post', body: json(obj) })
             .then(response => response.json())
             .then(data => {
                 this.isRequesting = false;
                 return data;
             });
+        }
     }
 
     putOrPost(phrase) {
