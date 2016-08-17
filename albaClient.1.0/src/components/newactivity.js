@@ -13,7 +13,7 @@ export class NewActivity {
 
     activate(model){
         if(model){
-            console.log(model);
+            console.log('this is the shit they give me',model);
             this.name = model.name;
             this.location = model.location;
             this.start = model.start;

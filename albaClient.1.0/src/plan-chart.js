@@ -15,6 +15,10 @@ export class PlanChart {
     }
 
     aDialog(callback, model) {
+        model.start = moment(model.start).format('YYYY-MM-DD HH:mm');
+        model.end = moment(model.end).format('YYYY-MM-DD HH:mm');
+        model.starttime = moment(model.start).format('HH:mm');
+        model.endtime = moment(model.end).format('HH:mm');
         this.dialogService.open({ viewModel: 'components/newactivity', model: model }).then(response => {
             if (!response.wasCancelled) {
                 console.log('New activity - ', response.output);
@@ -61,7 +65,7 @@ export class PlanChart {
                     }
                 }, null);
             },
-            onMove:  (item, callback) => {
+            onMove: (item, callback) => {
                 var title = 'Do you really want to move the item to\n' +
                     'start: ' + item.start + '\n' +
                     'end: ' + item.end + '?';
@@ -72,7 +76,7 @@ export class PlanChart {
 
                 callback(item); // send back item as confirmation (can be changed)
             },
-            onUpdate:  (item, callback) => {
+            onUpdate: (item, callback) => {
                 this.aDialog(function (value) {
                     if (value) {
                         console.log('return from dialog', value);
@@ -90,7 +94,7 @@ export class PlanChart {
 
         this.apiService.getActivities()
             .then((res) => {
-                console.log(res);
+                console.log('feed', res);
                 this.activities = res;
                 var timeline = new vis.Timeline(container);
                 timeline.setOptions(options);
