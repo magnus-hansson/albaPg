@@ -1,0 +1,50 @@
+<template>
+    <require from="./date-picker"></require>
+    <ai-dialog class="wider-dialog" style="width:600px">
+        <ai-dialog-body>
+            <h2>Add activity</h2>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <div class="label-column">
+                            <label class="control-label" for="actualDepartureTime">Actiivty name</label>
+                        </div>
+                        <div class="input-column">
+                            <input type="text" value.bind="name" class="form-control" placeholder="Kånka redskap" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label-column">
+                            <label class="control-label" for="actualDepartureTime">Location</label>
+                        </div>
+                        <div class="input-column">
+                            <input type="text" value.bind="location" class="form-control" placeholder="JG-hallen" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="label-column">
+                            <label class="control-label" for="actualDepartureTime">Start</label>
+                        </div>
+                        <div class="input-column">
+                            <date-picker value.two-way="start" format="YYYY-MM-DD HH:mm"></date-picker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label-column">
+                            <label class="control-label" for="originalArrivalTime">End</label>
+                        </div>
+                        <div class="input-column">
+                            <date-picker value.two-way="end" format="YYYY-MM-DD HH:mm"></date-picker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ai-dialog-body>
+        <ai-dialog-footer>
+            <button class="btn " click.trigger="controller.cancel() ">Cancel</button>
+            <button class="btn " click.trigger="controller.ok({name,location, start, end}) ">Ok</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>

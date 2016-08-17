@@ -1,0 +1,14 @@
+<template>
+  <div class="col-md-7" style="margin-top:10px;">
+    <div class="panel panel-default" repeat.for="date of activities">
+      <div class="panel-heading">${date.date}</div>
+      <div class="list-group"  repeat.for="activity of date.activity">
+        <a href="#" class="list-group-item" click.delegate="$parent.$parent.selectActivity(activity)">
+          <h4 class="list-group-item-heading">${activity.name}</h4>
+          <p class="list-group-item-text"><b>Tid:</b> ${activity.starttime} - ${activity.endtime}</p>
+          <p class="list-group-item-text"><b>Beskrivning:</b> ${activity.beskrivning}</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
