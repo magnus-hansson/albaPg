@@ -50,18 +50,90 @@ export class ApiService {
 
     }
 
+    getGuides() {
+        const json = [
+            {
+            "id": 4,
+            "name": "Agneta Wåxberg"
+            },
+            {
+                "id": 14,
+                "name": "Arne Fluxbregs"
+            },
+            {
+                "id": 34,
+                "name": "Anita Ivanov"
+            },
+            {
+                "id": 0,
+                "name": "Unassigned"
+            }];
+        let p = new Promise(function (resolve, reject) {
+
+            resolve(json);  
+
+        });
+        return p;
+    }
+
+    getTrips() {
+
+        const json =
+            [
+                {
+                    "id": 4,
+                    "tripName": "Vandring i Portugal",
+                    "start": "2016-05-26",
+                    "end": "2016-05-31", 
+                    "group":0
+                },
+                {
+                    "id": 14,
+                    "tripName": "Istanbul - porten till Asien",
+                    "start": "2016-06-01",
+                    "end": "2016-06-14", 
+                    "group":0
+                },
+                {
+                    "id": 15,
+                    "tripName": "Istanbul - porten till Asien",
+                    "start": "2016-06-16",
+                    "end": "2016-06-23", 
+                    "group":0
+                },
+                {
+                    "id": 16,
+                    "tripName": "Istanbul - porten till Asien",
+                    "start": "2016-06-24",
+                    "end": "2016-06-31", 
+                    "group":0
+                },
+                {
+                    "id": 34,
+                    "tripName": "Kortvecka i Lissabon",
+                    "start": "2016-06-03",
+                    "end": "2016-06-04", 
+                    "group":0
+
+                }];
+        let p = new Promise(function (resolve, reject) {
+            resolve(json);  // fulfilled successfully
+        });
+        return p;
+    }
+
 
     signUp(activityId, gymnastId) {
         let obj = {};
         obj.gid = gymnastId;
         obj.aid = activityId;
         if (this.appSettings.useServer == true) {
-        return this.http.fetch('signup', { method: 'post', body: json(obj) })
-            .then(response => response.json())
-            .then(data => {
-                this.isRequesting = false;
-                return data;
-            });
+            return this.http.fetch('signup', { method: 'post', body: json(obj) })
+                .then(response => response.json())
+                .then(data => {
+                    this.isRequesting = false;
+                    return data;
+                });
         }
     }
 

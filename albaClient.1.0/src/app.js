@@ -7,7 +7,8 @@ export class App {
       { route: 'activity', name: 'activity', moduleId: 'activity', nav: true, title: 'Sign up for activity' },
       { route: 'plan-chart', name: 'plan-chart', moduleId: 'plan-chart', nav: true, title: 'Plan chart' },
       { route: 'signup-chart', name: 'signup-chart', moduleId: 'signup-chart', nav: true, title: 'Signup chart' },
-           { route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }
+      { route: 'tema-chart', name: 'tema-chart', moduleId: 'tema-chart', nav: true, title: 'Tema chart' },
+      { route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }
     ]);
 
     this.router = router;
