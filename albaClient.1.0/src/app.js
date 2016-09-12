@@ -4,6 +4,7 @@ export class App {
     config.map([
       { route: ['', 'welcome'], name: 'welcome', moduleId: 'welcome', nav: true, title: 'Welcome' },
       { route: 'users', name: 'users', moduleId: 'users', nav: true, title: 'Github Users' },
+      { route: 'test', name: 'test', moduleId: 'test', nav: true, title: 'Test page' },
       { route: 'activity', name: 'activity', moduleId: 'activity', nav: true, title: 'Sign up for activity' },
       { route: 'plan-chart', name: 'plan-chart', moduleId: 'plan-chart', nav: true, title: 'Plan chart' },
       { route: 'signup-chart', name: 'signup-chart', moduleId: 'signup-chart', nav: true, title: 'Signup chart' },

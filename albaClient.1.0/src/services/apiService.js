@@ -167,6 +167,15 @@ export class ApiService {
         return p;
     }
 
+    getAthletes(){
+         return this.http.fetch('athlete', { method: 'get' })
+                .then(response => response.json())
+                .then(data => {
+                    this.isRequesting = false;
+                    return data;
+                });
+    }
+
     delete(id) {
         return this.http.fetch('phrase/' + id, { method: 'delete' });
     }
