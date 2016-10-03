@@ -1,0 +1,17 @@
+<template>
+  <section>
+    <h2>${heading}</h2>
+
+    <div><button click.trigger="addListItem()">Add List Item</button></div>
+
+    <div role="grid">
+      <div repeat.for="row of listItems" style="display: flex;">
+        <div style="flex: 1 auto;" class="fade-in-box" >${row.listItem}</div>
+        <div style="flex: 1 100px;" class="fade-in-box" >${row.qty}</div>
+      </div>
+    </div>
+
+    Count: <div ref="elGridCount">${listItems.length}</div>
+
+  </section>
+</template>

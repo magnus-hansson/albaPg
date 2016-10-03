@@ -173,3 +173,47 @@ div.au-stagger {
     opacity: 1;
   }
 }
+
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* for compatibility with older browsers */
+@-webkit-keyframes fade-in{
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+/* Credit goes to http://daneden.github.io/animate.css/ */
+@keyframes flash {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+.fade-in-box {
+  -webkit-animation: 10.5s fade-in;
+  animation: 10.5s fade-in;
+
+  border: 1px solid black;
+  background: yellow;
+}
+
+.au-attention {
+  -webkit-animation: 0.5s flash;
+  animation:  0.5s flash;
+}
