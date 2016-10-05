@@ -31,7 +31,7 @@ export class ApiService {
         this.isRequesting = true;
 
         if (this.appSettings.useServer == true) {
-            return this.http.fetch('activities')
+            return this.http.fetch('activity')
                 .then(response => response.json())
                 .then(data => {
                     this.isRequesting = false;
@@ -148,14 +148,14 @@ export class ApiService {
 
     getUserById(guuid) {
 
-        if (this.appSettings.useServer == true) {
-            return this.http.fetch('user/' + guuid, { method: 'get' })
-                .then(response => response.json())
-                .then(data => {
-                    this.isRequesting = false;
-                    return data;
-                });
-        }
+        // if (this.appSettings.useServer == true) {
+        //     return this.http.fetch('user/' + guuid, { method: 'get' })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             this.isRequesting = false;
+        //             return data;
+        //         });
+        // }
 
 
         let json = { "id": 1, "groupid": null, "name": "Isch been static user", "guuid": "69758fa0-0963-41fd-90f1-39ea0d82080d" };

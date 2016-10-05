@@ -13,6 +13,7 @@ router.prefix(`/${baseApi}/${api}`)
 
 // GET /api/city
 router.get('/', async(ctx) => {
+  //app.io.broadcast('inserted', { 'add': 456, 'del': 12312 });
   ctx.body = await Athlete.find();
 })
   

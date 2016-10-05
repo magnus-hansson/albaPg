@@ -1,6 +1,6 @@
 module.exports = {
   "bundles": {
-    "dist/app-build": {
+    "dist14/app-build": {
       "includes": [
         "[**/*.js]",
         "**/*.html!text",
@@ -13,7 +13,7 @@ module.exports = {
         "rev": false
       }
     },
-    "dist/aurelia": {
+    "dist14/aurelia": {
       "includes": [
         "aurelia-framework",
         "aurelia-bootstrapper",

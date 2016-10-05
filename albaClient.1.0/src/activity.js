@@ -20,7 +20,7 @@ export class Activity {
         this.appSettings = appSettings;
 
         if (this.appSettings.useServer == true) {
-            var socket = io('http://localhost:3010');
+            var socket = io('http://localhost:3020');
 
             socket.on('inserted', (data) => {
                 console.log(data);

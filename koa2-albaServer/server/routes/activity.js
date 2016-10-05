@@ -13,7 +13,6 @@ router.prefix(`/${baseApi}/${api}`)
 
 // GET /api/city
 router.get('/', async(ctx) => {
-
   ctx.body = await Activity.find();
 })
   
