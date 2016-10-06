@@ -137,7 +137,7 @@ export class ApiService {
         obj.gid = gymnastId;
         obj.aid = activityId;
         if (this.appSettings.useServer == true) {
-            return this.http.fetch('signup', { method: 'post', body: json(obj) })
+            return this.http.fetch('signup/'+ activityId, { method: 'put', body: json(obj) })
                 .then(response => response.json())
                 .then(data => {
                     this.isRequesting = false;
@@ -155,25 +155,24 @@ export class ApiService {
         }
     }
 
-    getUserById(guuid) {
+    getAthleteById(guuid) {
 
         //  if (this.appSettings.useServer == true) {
-        //      return this.http.fetch('user/' + guuid, { method: 'get' })
-        //          .then(response => response.json())
-        //          .then(data => {
-        //              this.isRequesting = false;
-        //              return data;
-        //          });
+              return this.http.fetch('athlete/' + guuid, { method: 'get' })
+                  .then(response => response.json())
+                  .then(data => {
+                      
+                      return data;
+                  });
         //  }
 
 
-        let json = { "id": 1, "groupid": null, "name": "Isch been static user", "guuid": "69758fa0-0963-41fd-90f1-39ea0d82080d" };
+      /*  let json = { "id": 1, "groupid": null, "name": "Isch been static user", "guuid": "69758fa0-0963-41fd-90f1-39ea0d82080d" };
         let p = new Promise(function (resolve, reject) {
-
             resolve(json);  // fulfilled successfully
-
         });
         return p;
+        */
     }
 
     getAthletes() {

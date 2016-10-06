@@ -7,7 +7,8 @@ const athleteSchema = new Schema({
   emails: [String],
   phones: [String],
   //activities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }],
-  updated: { type: Date, default: Date.now }
+  updated: { type: Date, default: Date.now },
+  recentactivity: String
 })
 
 export default mongoose.model('Athlete', athleteSchema)

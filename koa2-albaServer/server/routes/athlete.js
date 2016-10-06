@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import Athlete from '../models/athlete'
+import Activity from '../models/activity'
 import Router from 'koa-router'
 import { baseApi } from '../config'
 
@@ -32,11 +33,20 @@ router.post('/', async(ctx) => {
 // GET /api/city/id
 router.get('/:id', async(ctx) => {
   try {
-    const athlete = await Athlete.findById(ctx.params.id)
+    let athlete = await Athlete.findById(ctx.params.id);
+    athlete = athlete.toObject();
+   
+    //get what event this athlete is already signed up for
+    let activity = await Activity.find({athletes: ctx.params.id});
+
+    //activity = activity.toObject();
+    athlete.recentactivity = activity[0]._id;
+    console.log('user signed up to ', activity[0]._id);
     if (!athlete) {
       ctx.throw(404)
     }
-    ctx.body = athlete
+    
+    ctx.body = athlete;
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'NotFoundError') {
       ctx.throw(404)

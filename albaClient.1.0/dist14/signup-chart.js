@@ -38,6 +38,9 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     this.activities = [];
                     this.appSettings = appSettings;
                     this.timeline = null;
+
+                    this.dataSet = new vis.DataSet({ fieldId: "_id" });
+
                     if (this.appSettings.useServer == true) {
                         var socket = io('http://localhost:3020');
 
@@ -68,23 +71,13 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                 };
 
                 SignupChart.prototype.activate = function activate(params, route, navigationInstruction) {
-                    var _this2 = this;
-
                     var gymnastId = navigationInstruction.params.childRoute;
                     console.log(navigationInstruction.params.childRoute);
                     this.gymnastId = navigationInstruction.params.childRoute;
-
-                    return this.apiService.getUserById(this.gymnastId).then(function (res) {
-                        console.log('response', res);
-                        _this2.gymnastName = res.name;
-                    }).then(this.apiService.getActivities2().then(function (res) {
-                        _this2.activities = res;
-                        _this2.timeline.setItems(_this2.activities);
-                    }));
                 };
 
                 SignupChart.prototype.attached = function attached() {
-                    var _this3 = this;
+                    var _this2 = this;
 
                     var container = document.getElementById('visualization');
 
@@ -101,14 +94,21 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
 
                     this.timeline = new vis.Timeline(container);
                     this.timeline.setOptions(options);
-                    this.timeline.setItems(this.activities);
-
                     this.timeline.on('click', function (properties) {
                         if (properties.what === 'item') {
                             console.log('signing up for event id = ', properties.item);
-                            _this3.signup(_this3.gymnastId, properties.item);
+                            _this2.signup(properties.item, _this2.gymnastId);
                         }
                     });
+
+                    return this.apiService.getAthleteById(this.gymnastId).then(function (res) {
+                        console.log('response', res);
+                        _this2.gymnastName = res.name;
+                    }).then(this.apiService.getActivities2().then(function (res) {
+                        _this2.activities = res;
+                        _this2.dataSet.add(_this2.activities);
+                        _this2.timeline.setItems(_this2.dataSet);
+                    }));
                 };
 
                 return SignupChart;

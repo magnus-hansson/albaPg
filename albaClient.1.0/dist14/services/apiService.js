@@ -133,7 +133,7 @@ System.register(['aurelia-framework', 'aurelia-fetch-client', '../infrastructure
                     obj.gid = gymnastId;
                     obj.aid = activityId;
                     if (this.appSettings.useServer == true) {
-                        return this.http.fetch('signup', { method: 'post', body: json(obj) }).then(function (response) {
+                        return this.http.fetch('signup/' + activityId, { method: 'put', body: json(obj) }).then(function (response) {
                             return response.json();
                         }).then(function (data) {
                             _this2.isRequesting = false;
@@ -150,14 +150,13 @@ System.register(['aurelia-framework', 'aurelia-fetch-client', '../infrastructure
                     }
                 };
 
-                ApiService.prototype.getUserById = function getUserById(guuid) {
+                ApiService.prototype.getAthleteById = function getAthleteById(guuid) {
+                    return this.http.fetch('athlete/' + guuid, { method: 'get' }).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
 
-                    var json = { "id": 1, "groupid": null, "name": "Isch been static user", "guuid": "69758fa0-0963-41fd-90f1-39ea0d82080d" };
-                    var p = new Promise(function (resolve, reject) {
-
-                        resolve(json);
+                        return data;
                     });
-                    return p;
                 };
 
                 ApiService.prototype.getAthletes = function getAthletes() {

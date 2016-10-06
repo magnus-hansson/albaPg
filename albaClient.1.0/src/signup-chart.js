@@ -15,6 +15,9 @@ export class SignupChart {
         this.activities = [];
         this.appSettings = appSettings;
         this.timeline = null;
+        
+        this.dataSet = new vis.DataSet({ fieldId: "_id" });
+        
         if (this.appSettings.useServer == true) {
             var socket = io('http://localhost:3020');
 
@@ -44,18 +47,6 @@ export class SignupChart {
         let gymnastId = navigationInstruction.params.childRoute;
         console.log(navigationInstruction.params.childRoute);
         this.gymnastId = navigationInstruction.params.childRoute;
-        //todo: verify that gymnastId maps to known gymnast
-        return this.apiService.getUserById(this.gymnastId)
-            .then((res) => {
-                console.log('response', res);
-                this.gymnastName = res.name;
-            })
-            .then(this.apiService.getActivities2()
-                .then((res) => {
-                    this.activities = res;
-                    this.timeline.setItems(this.activities);
-                })
-            );
     }
 
     attached() {
@@ -79,13 +70,25 @@ export class SignupChart {
 
         this.timeline = new vis.Timeline(container);
         this.timeline.setOptions(options);
-        this.timeline.setItems(this.activities);
-
-        this.timeline.on('click',  (properties) => {
+        this.timeline.on('click', (properties) => {
             if (properties.what === 'item') {
                 console.log('signing up for event id = ', properties.item);
-                this.signup(this.gymnastId, properties.item);
+                this.signup(properties.item, this.gymnastId);
             }
         });
+
+        return this.apiService.getAthleteById(this.gymnastId)
+            .then((res) => {
+                console.log('response', res);
+                this.gymnastName = res.name;
+            })
+            .then(this.apiService.getActivities2()
+                .then((res) => {
+                    this.activities = res;
+                    this.dataSet.add(this.activities);
+                    this.timeline.setItems(this.dataSet);
+                })
+            );
+
     }
 }
