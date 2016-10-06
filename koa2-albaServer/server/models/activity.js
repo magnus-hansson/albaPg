@@ -7,6 +7,8 @@ const activitySchema = new Schema({
     description: String,
     location: String,
     date: Date,
+    start: String,
+    end: String,
     starttime: String,
     endtime: String,
     athletes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Athlete' }],

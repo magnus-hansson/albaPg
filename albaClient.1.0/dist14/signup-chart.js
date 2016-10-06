@@ -37,7 +37,7 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     this.apiService = apiService;
                     this.activities = [];
                     this.appSettings = appSettings;
-
+                    this.timeline = null;
                     if (this.appSettings.useServer == true) {
                         var socket = io('http://localhost:3020');
 
@@ -77,10 +77,9 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     return this.apiService.getUserById(this.gymnastId).then(function (res) {
                         console.log('response', res);
                         _this2.gymnastName = res.name;
-                    }).then(this.apiService.getActivities().then(function (res) {
+                    }).then(this.apiService.getActivities2().then(function (res) {
                         _this2.activities = res;
-
-                        console.log(_this2.activities);
+                        _this2.timeline.setItems(_this2.activities);
                     }));
                 };
 
@@ -100,12 +99,11 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                             remove: false }
                     };
 
-                    var timeline = new vis.Timeline(container);
-                    timeline.setOptions(options);
+                    this.timeline = new vis.Timeline(container);
+                    this.timeline.setOptions(options);
+                    this.timeline.setItems(this.activities);
 
-                    timeline.setItems(this.activities);
-
-                    timeline.on('click', function (properties) {
+                    this.timeline.on('click', function (properties) {
                         if (properties.what === 'item') {
                             console.log('signing up for event id = ', properties.item);
                             _this3.signup(_this3.gymnastId, properties.item);

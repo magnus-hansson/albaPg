@@ -14,7 +14,7 @@ export class SignupChart {
         this.apiService = apiService;
         this.activities = [];
         this.appSettings = appSettings;
-
+        this.timeline = null;
         if (this.appSettings.useServer == true) {
             var socket = io('http://localhost:3020');
 
@@ -49,13 +49,11 @@ export class SignupChart {
             .then((res) => {
                 console.log('response', res);
                 this.gymnastName = res.name;
-
             })
-            .then(this.apiService.getActivities()
+            .then(this.apiService.getActivities2()
                 .then((res) => {
                     this.activities = res;
-
-                    console.log(this.activities);
+                    this.timeline.setItems(this.activities);
                 })
             );
     }
@@ -79,12 +77,11 @@ export class SignupChart {
             },
         };
 
-        var timeline = new vis.Timeline(container);
-        timeline.setOptions(options);
-        //timeline.setGroups(groups);
-        timeline.setItems(this.activities);
+        this.timeline = new vis.Timeline(container);
+        this.timeline.setOptions(options);
+        this.timeline.setItems(this.activities);
 
-        timeline.on('click',  (properties) => {
+        this.timeline.on('click',  (properties) => {
             if (properties.what === 'item') {
                 console.log('signing up for event id = ', properties.item);
                 this.signup(this.gymnastId, properties.item);
