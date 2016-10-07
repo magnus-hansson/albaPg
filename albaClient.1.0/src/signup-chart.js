@@ -15,7 +15,7 @@ export class SignupChart {
         this.activities = [];
         this.appSettings = appSettings;
         this.timeline = null;
-        
+        this.athlete = null;
         this.dataSet = new vis.DataSet({ fieldId: "_id" });
         
         if (this.appSettings.useServer == true) {
@@ -39,8 +39,11 @@ export class SignupChart {
         }
     }
 
-    signup(activityId, gymnastId) {
-        this.apiService.signUp(activityId, gymnastId);
+    signup(activityId, athlete) {
+        this.apiService.signUp(activityId, athlete)
+            .then(_ => {
+                this.athlete.recentactivity = activityId;
+            });
     }
 
     activate(params, route, navigationInstruction) {
@@ -73,22 +76,22 @@ export class SignupChart {
         this.timeline.on('click', (properties) => {
             if (properties.what === 'item') {
                 console.log('signing up for event id = ', properties.item);
-                this.signup(properties.item, this.gymnastId);
+                this.signup(properties.item, this.athlete);
             }
         });
 
         return this.apiService.getAthleteById(this.gymnastId)
             .then((res) => {
                 console.log('response', res);
-                this.gymnastName = res.name;
-            })
-            .then(this.apiService.getActivities2()
+                this.athlete = res;
+                this.apiService.getActivities2()
                 .then((res) => {
+                    console.log(res);
                     this.activities = res;
                     this.dataSet.add(this.activities);
                     this.timeline.setItems(this.dataSet);
+                    this.timeline.setSelection(this.athlete.recentactivity);
                 })
-            );
-
+            })
     }
 }

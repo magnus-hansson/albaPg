@@ -132,12 +132,16 @@ export class ApiService {
     }
 
 
-    signUp(activityId, gymnastId) {
+    signUp(activityId, athlete) {
+        let oldId = athlete.recentactivity;
         let obj = {};
-        obj.gid = gymnastId;
-        obj.aid = activityId;
+        //obj.athleteId = athlete._id;
+        obj.athletes = [athlete._id];
+        //obj.oldActivityId = athlete.recentactivity;
+        //obj.newActivityId = activityId;
+
         if (this.appSettings.useServer == true) {
-            return this.http.fetch('signup/'+ activityId, { method: 'put', body: json(obj) })
+            return this.http.fetch('signup/'+ activityId + '/' + oldId, { method: 'put', body: json(obj) })
                 .then(response => response.json())
                 .then(data => {
                     this.isRequesting = false;

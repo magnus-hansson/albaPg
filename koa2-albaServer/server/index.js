@@ -27,11 +27,31 @@ routing(app)
 //This is in index becuase I do not know how to get a grip on socket.io inside routes. Maybe we should switch this out to an eventEmitter thingamabob
 const api = 'signup'
 iorouter.prefix(`/${baseApi}/${api}`)
-iorouter.put('/:id', async (ctx) => {
+iorouter.put('/:id/:oldid', async (ctx) => {
 
   try {
-    console.log('find id', ctx.params.id);
-    const activity = await Activity.findByIdAndUpdate(ctx.params.id, ctx.request.body)
+    console.log('find new id', ctx.params.id);
+    console.log('find old id', ctx.params.oldid);
+    let athlete = ctx.request.body.athletes[0];
+    let oldId = ctx.params.oldid;
+    let newId = ctx.params.id;
+    //1. If old activity exist. Find it and remove this athlete from it
+   
+      //let oldactivity =  await Activity.findByIdAndUpdate(ctx.params.id, {athletes:athletes})
+   //   console.log('pulling athelete', athlete, ' from  activity ', oldId)  
+   //   await Activity.update({ _id: oldId },{$pull: {athletes: athlete}});
+   if(ctx.params.oldid == 'undefined'){
+     console.log('not null')
+   } else {
+     console.log('null')
+   }
+
+
+    const act1 = await Activity.findById(ctx.params.id);
+    let athletes = act1.athletes.concat(ctx.request.body.athletes);
+    console.log('tmp', athletes);
+
+    const activity = await Activity.findByIdAndUpdate(ctx.params.id, { athletes: athletes });
     if (!activity) {
       ctx.throw(404)
     }

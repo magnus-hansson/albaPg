@@ -1,6 +1,6 @@
 module.exports = {
   "bundles": {
-    "dist14/app-build": {
+    "dist/app-build": {
       "includes": [
         "[**/*.js]",
         "**/*.html!text",

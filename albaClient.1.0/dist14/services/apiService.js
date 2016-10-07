@@ -126,14 +126,17 @@ System.register(['aurelia-framework', 'aurelia-fetch-client', '../infrastructure
                     return p;
                 };
 
-                ApiService.prototype.signUp = function signUp(activityId, gymnastId) {
+                ApiService.prototype.signUp = function signUp(activityId, athlete) {
                     var _this2 = this;
 
+                    var oldId = athlete.recentactivity;
                     var obj = {};
-                    obj.gid = gymnastId;
-                    obj.aid = activityId;
+
+                    obj.athletes = [athlete._id];
+
+
                     if (this.appSettings.useServer == true) {
-                        return this.http.fetch('signup/' + activityId, { method: 'put', body: json(obj) }).then(function (response) {
+                        return this.http.fetch('signup/' + activityId + '/' + oldId, { method: 'put', body: json(obj) }).then(function (response) {
                             return response.json();
                         }).then(function (data) {
                             _this2.isRequesting = false;

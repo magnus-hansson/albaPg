@@ -40,8 +40,12 @@ router.get('/:id', async(ctx) => {
     let activity = await Activity.find({athletes: ctx.params.id});
 
     //activity = activity.toObject();
-    athlete.recentactivity = activity[0]._id;
-    console.log('user signed up to ', activity[0]._id);
+    if(activity.length >0) {
+      athlete.recentactivity = activity[0]._id;
+      console.log('user signed up to ', activity[0]._id);
+    }
+    
+    
     if (!athlete) {
       ctx.throw(404)
     }

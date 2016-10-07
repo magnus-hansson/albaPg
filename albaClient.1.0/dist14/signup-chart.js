@@ -38,7 +38,7 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     this.activities = [];
                     this.appSettings = appSettings;
                     this.timeline = null;
-
+                    this.athlete = null;
                     this.dataSet = new vis.DataSet({ fieldId: "_id" });
 
                     if (this.appSettings.useServer == true) {
@@ -66,8 +66,12 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     }
                 }
 
-                SignupChart.prototype.signup = function signup(activityId, gymnastId) {
-                    this.apiService.signUp(activityId, gymnastId);
+                SignupChart.prototype.signup = function signup(activityId, athlete) {
+                    var _this2 = this;
+
+                    this.apiService.signUp(activityId, athlete).then(function (_) {
+                        _this2.athlete.recentactivity = activityId;
+                    });
                 };
 
                 SignupChart.prototype.activate = function activate(params, route, navigationInstruction) {
@@ -77,7 +81,7 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                 };
 
                 SignupChart.prototype.attached = function attached() {
-                    var _this2 = this;
+                    var _this3 = this;
 
                     var container = document.getElementById('visualization');
 
@@ -97,18 +101,21 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
                     this.timeline.on('click', function (properties) {
                         if (properties.what === 'item') {
                             console.log('signing up for event id = ', properties.item);
-                            _this2.signup(properties.item, _this2.gymnastId);
+                            _this3.signup(properties.item, _this3.athlete);
                         }
                     });
 
                     return this.apiService.getAthleteById(this.gymnastId).then(function (res) {
                         console.log('response', res);
-                        _this2.gymnastName = res.name;
-                    }).then(this.apiService.getActivities2().then(function (res) {
-                        _this2.activities = res;
-                        _this2.dataSet.add(_this2.activities);
-                        _this2.timeline.setItems(_this2.dataSet);
-                    }));
+                        _this3.athlete = res;
+                        _this3.apiService.getActivities2().then(function (res) {
+                            console.log(res);
+                            _this3.activities = res;
+                            _this3.dataSet.add(_this3.activities);
+                            _this3.timeline.setItems(_this3.dataSet);
+                            _this3.timeline.setSelection(_this3.athlete.recentactivity);
+                        });
+                    });
                 };
 
                 return SignupChart;
