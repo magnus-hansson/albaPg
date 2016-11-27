@@ -36,15 +36,15 @@ iorouter.put('/:id/:oldid', async (ctx) => {
     let oldId = ctx.params.oldid;
     let newId = ctx.params.id;
     //1. If old activity exist. Find it and remove this athlete from it
-   
-      //let oldactivity =  await Activity.findByIdAndUpdate(ctx.params.id, {athletes:athletes})
-   //   console.log('pulling athelete', athlete, ' from  activity ', oldId)  
-   //   await Activity.update({ _id: oldId },{$pull: {athletes: athlete}});
-   if(ctx.params.oldid == 'undefined'){
-     console.log('not null')
-   } else {
-     console.log('null')
-   }
+
+    //let oldactivity =  await Activity.findByIdAndUpdate(ctx.params.id, {athletes:athletes})
+    //   console.log('pulling athelete', athlete, ' from  activity ', oldId)  
+    //   await Activity.update({ _id: oldId },{$pull: {athletes: athlete}});
+    if (ctx.params.oldid == 'undefined') {
+      console.log('not null')
+    } else {
+      console.log('null')
+    }
 
 
     const act1 = await Activity.findById(ctx.params.id);

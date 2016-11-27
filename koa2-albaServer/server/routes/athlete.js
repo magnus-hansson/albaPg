@@ -13,17 +13,17 @@ router.prefix(`/${baseApi}/${api}`)
 /* eslint-disable no-unused-vars, no-param-reassign, new-cap */
 
 // GET /api/city
-router.get('/', async(ctx) => {
+router.get('/', async (ctx) => {
   //app.io.broadcast('inserted', { 'add': 456, 'del': 12312 });
   ctx.body = await Athlete.find();
 })
-  
+
 
 // POST /api/city
-router.post('/', async(ctx) => {
+router.post('/', async (ctx) => {
   try {
     const athlete = await new Athlete(ctx.request.body).save()
-  
+
     ctx.body = athlete
   } catch (err) {
     ctx.throw(422)
@@ -31,25 +31,25 @@ router.post('/', async(ctx) => {
 })
 
 // GET /api/city/id
-router.get('/:id', async(ctx) => {
+router.get('/:id', async (ctx) => {
   try {
     let athlete = await Athlete.findById(ctx.params.id);
     athlete = athlete.toObject();
-   
+
     //get what event this athlete is already signed up for
-    let activity = await Activity.find({athletes: ctx.params.id});
+    let activity = await Activity.find({ athletes: ctx.params.id });
 
     //activity = activity.toObject();
-    if(activity.length >0) {
+    if (activity.length > 0) {
       athlete.recentactivity = activity[0]._id;
       console.log('user signed up to ', activity[0]._id);
     }
-    
-    
+
+
     if (!athlete) {
       ctx.throw(404)
     }
-    
+
     ctx.body = athlete;
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'NotFoundError') {
@@ -60,7 +60,7 @@ router.get('/:id', async(ctx) => {
 })
 
 // PUT /api/city/id
-router.put('/:id', async(ctx) => {
+router.put('/:id', async (ctx) => {
   try {
     const athlete = await Athlete.findByIdAndUpdate(ctx.params.id, ctx.request.body)
     if (!athlete) {
@@ -76,7 +76,7 @@ router.put('/:id', async(ctx) => {
 })
 
 // DELETE /api/city/id
-router.delete('/:id', async(ctx) => {
+router.delete('/:id', async (ctx) => {
   try {
     const athlete = await Athlete.findByIdAndRemove(ctx.params.id)
     if (!athlete) {
