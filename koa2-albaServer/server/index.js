@@ -40,15 +40,23 @@ iorouter.put('/:id/:oldid', async (ctx) => {
     //let oldactivity =  await Activity.findByIdAndUpdate(ctx.params.id, {athletes:athletes})
     //   console.log('pulling athelete', athlete, ' from  activity ', oldId)  
     //   await Activity.update({ _id: oldId },{$pull: {athletes: athlete}});
-    if (ctx.params.oldid == 'undefined') {
+    if (oldId == 'undefined') {
       console.log('not null')
     } else {
-      console.log('null')
+      console.log('now we edit activity with id ', oldId)
+      const previousActivity = await Activity.findById(oldId)
+      let athletes = previousActivity.athletes.filter(x => !athlete)
+      previousActivity.athletes = athletes;
+      let updateOldActivity = await Activity.findByIdAndUpdate(oldId, previousActivity)
+      console.log('saved updated activity')
     }
 
 
     const act1 = await Activity.findById(ctx.params.id);
     let athletes = act1.athletes.concat(ctx.request.body.athletes);
+    
+
+
     console.log('tmp', athletes);
 
     const activity = await Activity.findByIdAndUpdate(ctx.params.id, { athletes: athletes });
@@ -56,7 +64,7 @@ iorouter.put('/:id/:oldid', async (ctx) => {
       ctx.throw(404)
     }
 
-    app.io.broadcast('inserted', { 'add': ctx.params.id, 'del': 12312 });
+    app.io.broadcast('inserted', { 'add': ctx.params.id, 'del': ctx.params.oldid });
     ctx.body = activity
 
   } catch (err) {

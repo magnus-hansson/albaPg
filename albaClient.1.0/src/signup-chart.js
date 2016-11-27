@@ -23,16 +23,21 @@ export class SignupChart {
 
             socket.on('inserted', (data) => {
                 console.log(data);
-
-                data.del.forEach((a) => {
+                if(data.del != 'undefined'){
+                    console.log('old activity', data.del, 'find and increase functionaries number by one')
+                    let decreaseThisActivity = this.activities.find(x => x._id === data.del);
+                    decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
+                    console.log(decreaseThisActivity);
+                }
+                /*data.del.forEach((a) => {
                     console.log(this.activitiesflat);
                     console.log(a.activityid)
                     let decreaseThisActivity = this.activities.find(x => x.id === Number.parseInt(a.activityid));
                     decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
                     console.log(decreaseThisActivity);
-                });
+                });*/
 
-                let objToUpdate = this.activities.find(x => x.id === data.add);
+                let objToUpdate = this.activities.find(x => x._id === data.add);
                 objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
                 console.log('add one signed up func for activity with id:', data.add, objToUpdate);
             });

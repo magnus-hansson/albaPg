@@ -1,1 +1,1 @@
-{"version":3,"sources":["infrastructure/app-settings.transform.js"],"names":[],"mappings":";;;;;;;;;;;;;;;;mCAAa,W,GAET,uBAAc;AAAA;;AACV,qBAAK,OAAL,GAAgB,YAAhB;;AAEA,qBAAK,GAAL,GAAW,KAAK,OAAL,GAAe,OAA1B;AACH,a","file":"infrastructure/app-settings.transform.js","sourceRoot":"/src"}
+{"version":3,"sources":["infrastructure/app-settings.transform.js"],"names":["AppSettings","baseUrl","api"],"mappings":";;;;;;;;;;;;;;;;mCAAaA,W,GAET,uBAAc;AAAA;;AACV,qBAAKC,OAAL,GAAgB,YAAhB;;AAEA,qBAAKC,GAAL,GAAW,KAAKD,OAAL,GAAe,OAA1B;AACH,a","file":"app-settings.transform.js","sourceRoot":"/src"}

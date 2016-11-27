@@ -46,19 +46,18 @@ System.register(['aurelia-framework', 'aurelia-binding', './services/apiService'
 
                         socket.on('inserted', function (data) {
                             console.log(data);
-
-                            data.del.forEach(function (a) {
-                                console.log(_this.activitiesflat);
-                                console.log(a.activityid);
+                            if (data.del != 'undefined') {
+                                console.log('old activity', data.del, 'find and increase functionaries number by one');
                                 var decreaseThisActivity = _this.activities.find(function (x) {
-                                    return x.id === Number.parseInt(a.activityid);
+                                    return x._id === data.del;
                                 });
                                 decreaseThisActivity.functionaries = Number.parseInt(decreaseThisActivity.functionaries) - 1;
                                 console.log(decreaseThisActivity);
-                            });
+                            }
+
 
                             var objToUpdate = _this.activities.find(function (x) {
-                                return x.id === data.add;
+                                return x._id === data.add;
                             });
                             objToUpdate.functionaries = Number.parseInt(objToUpdate.functionaries) + 1;
                             console.log('add one signed up func for activity with id:', data.add, objToUpdate);
